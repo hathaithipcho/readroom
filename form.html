@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 40px auto; background: white; padding: 30px; border-radius: 15px; border: 1px solid var(--border-color); box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+    <h2 style="color: var(--dark-brown); text-align: center; margin-bottom: 25px;">📥 เพิ่มข้อมูลเข้าระบบ</h2>
+    
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div style="margin-bottom: 15px;">
+            <label>รหัสวิชา</label>
+            <input type="text" name="subject_code" required style="width: 100%; padding: 10px; margin-top: 5px; border: 1px solid var(--border-color); border-radius: 5px;">
+        </div>
+        <div style="margin-bottom: 15px;">
+            <label>ชื่อวิชา / หัวข้อสรุป</label>
+            <input type="text" name="title" required style="width: 100%; padding: 10px; margin-top: 5px; border: 1px solid var(--border-color); border-radius: 5px;">
+        </div>
+        <div style="margin-bottom: 15px;">
+            <label>ประเภทเนื้อหา</label>
+            <select name="category" style="width: 100%; padding: 10px; margin-top: 5px; border: 1px solid var(--border-color); border-radius: 5px;">
+                <option value="EXAM">ข้อสอบเก่า</option>
+                <option value="SUM">สรุปบทเรียน</option>
+            </select>
+        </div>
+        <div style="margin-bottom: 20px;">
+            <label>รายละเอียดเพิ่มเติม</label>
+            <textarea name="description" rows="3" style="width: 100%; padding: 10px; margin-top: 5px; border: 1px solid var(--border-color); border-radius: 5px;"></textarea>
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label>หมวดหมู่วิชา</label>
+            <select name="subject_category" style="width: 100%; padding: 10px; margin-top: 5px; border: 1px solid var(--border-color); border-radius: 5px;">
+                <option value="MATH">คณิตศาสตร์</option>
+                <option value="SCI">วิทยาศาสตร์</option>
+                <option value="LANG">ภาษา</option>
+                <option value="COM">คอมพิวเตอร์</option>
+                <option value="SOC">สังคมศึกษา</option>
+            </select>
+        </div>
+        
+        <div style="margin: 15px 0;">
+            <label>อัปโหลดไฟล์ (PDF หรือ รูปภาพ):</label>
+            <input type="file" name="file_upload" accept=".pdf, .png, .jpg, .jpeg" required>
+        </div>
+        
+        <div style="display: flex; gap: 10px;">
+            <button type="submit" class="btn btn-primary" style="flex: 1;">บันทึกข้อมูล</button>
+            <a href="{% url 'archive:home' %}" class="btn" style="flex: 1; text-align: center; background: #eee; color: #333;">ยกเลิก</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

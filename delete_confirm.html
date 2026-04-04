@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 50px auto; background: white; padding: 30px; border-radius: 15px; text-align: center; border: 1px solid #D7CCC8;">
+    <h2 style="color: #D32F2F;">⚠️ ยืนยันการลบข้อมูล</h2>
+    <p style="margin: 20px 0; color: #5D4037;">คุณแน่ใจหรือไม่ว่าต้องการลบหัวข้อ <br><strong>"{{ object.title }}"</strong> ?</p>
+    
+    <form method="POST">
+        {% csrf_token %}
+        <div style="display: flex; gap: 10px; justify-content: center;">
+            <button type="submit" style="background: #D32F2F; color: white; border: none; padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                ตกลง, ลบเลย
+            </button>
+            <a href="{% url 'archive:home' %}" style="background: #BCAAA4; color: white; padding: 10px 25px; border-radius: 5px; text-decoration: none; font-weight: bold;">
+                ยกเลิก
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary & Mock Archive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #FDFBF7;
+            --primary-brown: #8D6E63;
+            --dark-brown: #4E342E;
+            --cream-light: #FFFFFF;
+            --border-color: #D7CCC8;
+            --text-color: #3E2723;
+        }
+
+        body {
+            font-family: 'Sarabun', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        nav {
+            background-color: var(--dark-brown);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--cream-light);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        nav a {
+            color: var(--cream-light);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Common Button Style */
+        .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary { background-color: var(--primary-brown); color: white; }
+        .btn-primary:hover { background-color: var(--dark-brown); }
+        
+        .btn-outline { 
+            background: transparent; 
+            border: 2px solid var(--primary-brown); 
+            color: var(--primary-brown); 
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="logo">📜 Atelier taupe</div>
+    <div>
+        <a href="{% url 'archive:home' %}">หน้าแรก</a>
+        <a href="{% url 'archive:list' %}">รายการทั้งหมด</a>
+        <a href="{% url 'archive:add' %}">เพิ่มข้อมูล</a>
+    </div>
+</nav>
+
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+<style>
+    .category-link:hover {
+        transform: translateY(-10px); /* เมื่อเอาเมาส์วาง จะลอยขึ้นเล็กน้อย */
+        opacity: 0.8;
+    }
+    /* บังคับให้รูปภาพในวงกลมมีขนาดสมดุลกัน */
+    .category-link img, .category-link span {
+        max-width: 100%;
+        height: auto;
+    }
+</style>
+
+</body>
+</html>

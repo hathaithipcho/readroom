@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div style="margin-bottom: 30px; text-align: center;">
+    <h2 style="color: #5D4037; margin-bottom: 20px;">🔍 คลังความรู้ทั้งหมด</h2>
+    
+    <form method="GET" action="{% url 'archive:list' %}" style="max-width: 600px; margin: 0 auto; display: flex; gap: 10px;">
+        <input type="text" name="q" value="{{ request.GET.q|default:'' }}" placeholder="ค้นหารหัสวิชา หรือ ชื่อหัวข้อ..." 
+               style="flex: 1; padding: 12px 20px; border: 2px solid #D7CCC8; border-radius: 30px; outline: none; font-size: 1rem;">
+        <button type="submit" style="background: #8D6E63; color: white; border: none; padding: 10px 25px; border-radius: 30px; cursor: pointer; font-weight: bold;">
+            ค้นหา
+        </button>
+    </form>
+    
+    {% if request.GET.cat or request.GET.q %}
+        <p style="margin-top: 15px; color: #8D6E63;">
+            {% if request.GET.cat %}กำลังแสดงหมวดหมู่: <strong>{% if request.GET.cat == 'SUM' %}สรุปบทเรียน{% else %}ข้อสอบเก่า{% endif %}</strong>{% endif %}
+            {% if request.GET.q %} ผลการค้นหาสำหรับ: <strong>"{{ request.GET.q }}"</strong>{% endif %}
+            | <a href="{% url 'archive:list' %}" style="color: #D32F2F; text-decoration: none; font-weight: bold;">ล้างการกรองทั้งหมด</a>
+        </p>
+    {% endif %}
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 20px;">
+    {% for item in results %}
+    <div style="background: white; border: 1px solid #D7CCC8; padding: 20px; border-radius: 12px; display: flex; flex-direction: column; justify-content: space-between; min-height: 220px; transition: 0.3s; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+        
+        <div>
+            <span style="background: #EFEBE9; color: #5D4037; font-size: 0.7rem; padding: 3px 8px; border-radius: 5px; font-weight: bold; border: 1px solid #D7CCC8;">
+                {{ item.get_category_display }}
+            </span>
+            
+            <span style="background: #D7CCC8; color: #5D4037; font-size: 0.7rem; padding: 3px 8px; border-radius: 5px; font-weight: bold; margin-left: 5px;">
+                📚 {{ item.get_subject_category_display }}
+            </span>
+
+            <h3 style="margin: 15px 0 5px 0; color: #5D4037; font-size: 1.1rem; line-height: 1.4;">
+                {{ item.subject_code }}: {{ item.title }}
+            </h3>
+            <p style="font-size: 0.8rem; color: #8D6E63; margin-bottom: 10px;">อัปเดตเมื่อ: {{ item.upload_date|date:"d M Y" }}</p>
+        </div>
+
+        <div style="margin-top: 15px; border-top: 1px solid #F5F5F5; padding-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; gap: 8px;">
+                {% if item.file %}
+                <a href="{{ item.file.url }}" target="_blank" style="font-size: 0.75rem; text-decoration: none; background: #8D6E63; color: white; padding: 6px 14px; border-radius: 4px; font-weight: bold; transition: 0.2s;">
+                    📖 อ่านไฟล์
+                </a>
+                {% else %}
+                <span style="font-size: 0.75rem; color: #ccc; padding: 6px 12px; border: 1px solid #eee; border-radius: 4px;">ไม่มีไฟล์</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div style="grid-column: span 3; text-align: center; padding: 60px; color: #999; background: #fafafa; border-radius: 15px;">
+        <p style="font-size: 1.2rem;">❌ ไม่พบข้อมูลที่ต้องการ</p>
+        <a href="{% url 'archive:list' %}" style="color: #8D6E63; font-weight: bold;">กลับไปดูรายการทั้งหมด</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
